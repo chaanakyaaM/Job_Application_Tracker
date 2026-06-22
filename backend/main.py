@@ -3,7 +3,7 @@ import os
 import re
 import base64
 from dotenv import load_dotenv
-from gmail import  get_emails
+from backend.gmail import  get_emails
 from fastapi import FastAPI, HTTPException, Query, Request, Body
 from fastapi.middleware.cors import CORSMiddleware
 from auth import create_otp, verify_otp
@@ -13,6 +13,7 @@ from google.auth.transport.requests import Request as GoogleAuthRequest
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
+
 
 load_dotenv()
 
@@ -28,7 +29,11 @@ TOKEN_PATH = os.path.join(BASE_DIR, "..", "token.json")
 
 frontend_url = os.getenv('FRONTEND_URL')
 
+if not frontend_url:
+    raise RuntimeError("FRONTEND_URL is not set")
+
 origins = [frontend_url]
+
 
 app.add_middleware(
     CORSMiddleware,
