@@ -20,6 +20,7 @@ otp_store = {
 
 def generate_otp(length=8):
     alphabet = string.ascii_letters + string.digits
+    print('OTP generated')
     return "".join(secrets.choice(alphabet) for _ in range(length))
 
 def send_otp_email(otp: str):
@@ -31,12 +32,14 @@ def send_otp_email(otp: str):
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
         smtp.login(GMAIL_SENDER, GMAIL_APP_PASSWORD)
         smtp.send_message(msg)
+        print('OTP sent via gmail')
 
 def create_otp():
     otp = generate_otp()
     otp_store["password"] = otp
     otp_store["expires_at"] = datetime.utcnow() + timedelta(minutes=10)
     send_otp_email(otp)
+    print('OTP stored on server')
 
 def verify_otp(user_otp: str):
     if not otp_store["password"] or not otp_store["expires_at"]:
@@ -52,4 +55,5 @@ def verify_otp(user_otp: str):
     # clear after use — one time only
     otp_store["password"] = None
     otp_store["expires_at"] = None
+    print("OTP verificed")
     return True, "Authenticated"

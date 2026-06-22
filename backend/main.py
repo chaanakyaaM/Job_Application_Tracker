@@ -67,7 +67,9 @@ def request_otp(request: Request):
         create_otp()
         return {"message": "OTP sent to your email"}
     except Exception as e:
+        print('Error:', str(e))
         raise HTTPException(status_code=500, detail=f"Failed to send OTP: {e}")
+
 
 @app.post("/auth/verify-otp")
 @limiter.limit("5/minute")
