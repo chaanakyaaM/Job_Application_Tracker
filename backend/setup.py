@@ -1,5 +1,5 @@
 # setup.py
-from gmail import get_credentials
+from backend.gmail import get_credentials
 
 if __name__ == "__main__":
     print("Opening browser for Google authentication...")

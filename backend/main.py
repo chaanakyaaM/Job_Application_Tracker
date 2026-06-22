@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from backend.gmail import  get_emails
 from fastapi import FastAPI, HTTPException, Query, Request, Body
 from fastapi.middleware.cors import CORSMiddleware
-from auth import create_otp, verify_otp
+from backend.auth import create_otp, verify_otp
 from googleapiclient.errors import HttpError
 from google.auth.transport.requests import Request as GoogleAuthRequest
 
