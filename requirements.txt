@@ -1,0 +1,6 @@
+fastapi
+streamlit
+request
+pandas
+plotly
+slowapi
