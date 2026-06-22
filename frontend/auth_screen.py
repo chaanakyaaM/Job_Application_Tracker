@@ -5,7 +5,14 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-API_URL = os.getenv("BACKEND_URL")
+API_URL = None
+
+try:
+    API_URL = st.secrets["BACKEND_URL"]
+    print(1)
+except Exception:
+    API_URL = os.getenv("BACKEND_URL")
+    print(3)
 
 def otp_screen():
     if st.session_state.get("authenticated"):
