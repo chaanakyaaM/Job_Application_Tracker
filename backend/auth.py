@@ -30,11 +30,17 @@ def get_gmail_service():
     creds = None
     if os.path.exists(TOKEN_PATH):
         creds = Credentials.from_authorized_user_file(TOKEN_PATH, SCOPES)
+
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
+            # Save refreshed token back to file
+            with open(TOKEN_PATH, "w") as f:
+                f.write(creds.to_json())
+            print("Token refreshed and saved")
         else:
-            raise RuntimeError("Gmail credentials missing or expired. Re-run OAuth flow.")
+            raise RuntimeError("Token missing or invalid, re-run OAuth flow")
+
     return build("gmail", "v1", credentials=creds)
 
 def generate_otp(length=8):
